@@ -1,0 +1,12 @@
+GET http://localhost:8080/test
+Accept: application/json
+
+###
+
+POST http://localhost:8080/test
+Content-Type: application/x-www-form-urlencoded
+
+id = 99 &
+content = new-element
+
+###
