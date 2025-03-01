@@ -2,10 +2,10 @@
   <a-layout>
     <a-layout-sider width="200" style="background: #fff">
       <a-menu
-        mode="inline"
-        :style="{ height: '100%', borderRight: 0 }"
-        @click="handleClick"
-        :openKeys="openKeys"
+          mode="inline"
+          :style="{ height: '100%', borderRight: 0 }"
+          @click="handleClick"
+          :openKeys="openKeys"
       >
         <a-menu-item key="welcome">
           <MailOutlined />
@@ -25,8 +25,8 @@
       </a-menu>
     </a-layout-sider>
     <a-layout-content
-    :style="{ background: '#fff', padding: '24px', margin: 0, minHeight: '280px' }"
-  >
+        :style="{ background: '#fff', padding: '24px', margin: 0, minHeight: '280px' }"
+    >
       <div class="welcome" v-show="isShowWelcome">
         <the-welcome></the-welcome>
       </div>
@@ -58,7 +58,7 @@
           </a-list-item>
         </template>
       </a-list>
-  </a-layout-content>
+    </a-layout-content>
   </a-layout>
 </template>
 
@@ -182,11 +182,11 @@ export default defineComponent({
 </script>
 
 <style scoped>
-  .ant-avatar {
-    width: 50px;
-    height: 50px;
-    line-height: 50px;
-    border-radius: 8%;
-    margin: 5px 0;
-  }
+.ant-avatar {
+  width: 50px;
+  height: 50px;
+  line-height: 50px;
+  border-radius: 8%;
+  margin: 5px 0;
+}
 </style>
