@@ -1,6 +1,6 @@
 <template>
   <a-layout-header class="header">
-    <div class="logo">甲蛙知识库</div>
+    <div class="logo">觉哥资源库</div>
     <a-menu
         theme="dark"
         mode="horizontal"
@@ -13,16 +13,16 @@
         <router-link to="/admin/user">用户管理</router-link>
       </a-menu-item>
       <a-menu-item key="/admin/ebook" :style="user.id? {} : {display:'none'}">
-        <router-link to="/admin/ebook">电子书管理</router-link>
+        <router-link to="/admin/ebook">资源管理</router-link>
       </a-menu-item>
       <a-menu-item key="/admin/category" :style="user.id? {} : {display:'none'}">
         <router-link to="/admin/category">分类管理</router-link>
       </a-menu-item>
+      <a-menu-item key="/juegetech">
+        <router-link to="/juegetech">新人必看</router-link>
+      </a-menu-item>
       <a-menu-item key="/about">
         <router-link to="/about">关于我们</router-link>
-      </a-menu-item>
-      <a-menu-item key="/aliyun">
-        <router-link to="/aliyun">阿里云优惠</router-link>
       </a-menu-item>
       <a-popconfirm
           title="确认退出登录?"

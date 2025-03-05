@@ -2,12 +2,15 @@
   <a-layout>
     <a-layout-content :style="{ background: '#fff', padding: '24px', margin: 0, minHeight: '280px' }">
       <div class="about">
-        <h2>我是觉哥，7年Java全栈+大数据资深开发</h2>
-        <div><b>专注Java全栈+大数据技术分享</b></div>
+        <h2>我是觉哥，7年Java全栈+大数据+AI应用+云原生+中间件经验的资深开发</h2>
+        <b>B站:觉哥学Java</b>
+        <div><b>本网站由技术团队以下小伙伴共同维护</b></div>
         <div>
-          <b>项目实战：
+          <b>
             <a href="baidu.com" target="_blank">
-            《xxx系统》
+            《文档资源网站(本网站主体)》：拜托第三方付费文档网站,企业/开源项目组/个人均可使用其构建自己的内部网站
+              github地址:
+              commiter
             </a>
           </b>
         </div>
