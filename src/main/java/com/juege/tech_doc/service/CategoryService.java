@@ -1,92 +1,82 @@
 package com.juege.tech_doc.service;
 
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
+import java.util.List;
+
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.extension.plugins.pagination.PageDTO;
 import com.juege.tech_doc.domain.Category;
-import com.juege.tech_doc.domain.CategoryExample;
 import com.juege.tech_doc.mapper.CategoryMapper;
 import com.juege.tech_doc.req.CategoryQueryReq;
 import com.juege.tech_doc.req.CategorySaveReq;
 import com.juege.tech_doc.resp.CategoryQueryResp;
 import com.juege.tech_doc.resp.PageResp;
 import com.juege.tech_doc.util.CopyUtil;
-import com.juege.tech_doc.util.SnowFlake;
+import com.juege.tech_doc.util.Snowflake;
+import jakarta.annotation.Resource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
-
-import javax.annotation.Resource;
-import java.util.List;
 
 @Service
 public class CategoryService {
 
-    private static final Logger LOG = LoggerFactory.getLogger(CategoryService.class);
+	private static final Logger LOG = LoggerFactory.getLogger(CategoryService.class);
 
-    @Resource
-    private CategoryMapper categoryMapper;
+	@Resource
+	private CategoryMapper categoryMapper;
 
-    @Resource
-    private SnowFlake snowFlake;
+	@Resource
+	private Snowflake snowFlake;
 
-    public List<CategoryQueryResp> all() {
-        CategoryExample categoryExample = new CategoryExample();
-        categoryExample.setOrderByClause("sort asc");
-        List<Category> categoryList = categoryMapper.selectByExample(categoryExample);
-        // 列表复制
-        List<CategoryQueryResp> list = CopyUtil.copyList(categoryList, CategoryQueryResp.class);
-        return list;
-    }
+	public List<CategoryQueryResp> all() {
+
+		final LambdaQueryWrapper<Category> categoryLambdaQueryWrapper = Wrappers.lambdaQuery(Category.class)
+				.orderByAsc(Category::getSort);
+		final List<Category> categories = categoryMapper.selectList(categoryLambdaQueryWrapper);
+		// 列表复制
+		return CopyUtil.copyList(categories, CategoryQueryResp.class);
+	}
 
 
-    public PageResp<CategoryQueryResp> list(CategoryQueryReq req) {
-        CategoryExample categoryExample = new CategoryExample();
-        categoryExample.setOrderByClause("sort asc");
-        CategoryExample.Criteria criteria = categoryExample.createCriteria();
-        PageHelper.startPage(req.getPage(), req.getSize());
-        List<Category> categoryList = categoryMapper.selectByExample(categoryExample);
+	public PageResp<CategoryQueryResp> list(CategoryQueryReq req) {
 
-        PageInfo<Category> pageInfo = new PageInfo<>(categoryList);
-        LOG.info("总行数：{}", pageInfo.getTotal());
-        LOG.info("总页数：{}", pageInfo.getPages());
+		final LambdaQueryWrapper<Category> categoryLambdaQueryWrapper = Wrappers.lambdaQuery(Category.class).orderByAsc(Category::getSort);
+		final Page<Category> categoryPage = PageDTO.of(req.getPage(), req.getSize());
+		categoryMapper.selectPage(categoryPage, categoryLambdaQueryWrapper);
 
-        // List<CategoryResp> respList = new ArrayList<>();
-        // for (Category category : categoryList) {
-        //     // CategoryResp categoryResp = new CategoryResp();
-        //     // BeanUtils.copyProperties(category, categoryResp);
-        //     // 对象复制
-        //     CategoryResp categoryResp = CopyUtil.copy(category, CategoryResp.class);
-        //
-        //     respList.add(categoryResp);
-        // }
+		LOG.info("总行数：{}", categoryPage.getTotal());
+		LOG.info("总页数：{}", categoryPage.getPages());
 
-        // 列表复制
-        List<CategoryQueryResp> list = CopyUtil.copyList(categoryList, CategoryQueryResp.class);
+		List<CategoryQueryResp> list = CopyUtil.copyList(categoryPage.getRecords(), CategoryQueryResp.class);
 
-        PageResp<CategoryQueryResp> pageResp = new PageResp();
-        pageResp.setTotal(pageInfo.getTotal());
-        pageResp.setList(list);
+		PageResp<CategoryQueryResp> pageResp = new PageResp();
+		pageResp.setTotal(categoryPage.getTotal());
+		pageResp.setList(list);
 
-        return pageResp;
-    }
+		return pageResp;
+	}
 
-    /**
-     * 保存
-     */
-    public void save(CategorySaveReq req) {
-        Category category = CopyUtil.copy(req, Category.class);
-        if (ObjectUtils.isEmpty(req.getId())) {
-            // 新增
-            category.setId(snowFlake.nextId());
-            categoryMapper.insert(category);
-        } else {
-            // 更新
-            categoryMapper.updateByPrimaryKey(category);
-        }
-    }
+	/**
+	 * 保存
+	 */
+	public void save(CategorySaveReq req) {
+		Category category = CopyUtil.copy(req, Category.class);
+		if (ObjectUtils.isEmpty(req.getId())) {
+			// 新增
+			category.setId(snowFlake.nextId());
+			categoryMapper.insert(category);
+		}
+		else {
+			// 更新
+			categoryMapper.updateById(category);
+		}
+	}
 
-    public void delete(Long id) {
-        categoryMapper.deleteByPrimaryKey(id);
-    }
+	public void delete(Long id) {
+		categoryMapper.deleteById(id);
+	}
 }

@@ -1,7 +1,8 @@
 package com.juege.tech_doc.req;
 
-import javax.validation.constraints.Max;
-import javax.validation.constraints.NotNull;
+
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.NotNull;
 
 public class PageReq {
     @NotNull(message = "【页码】不能为空")

@@ -3,7 +3,11 @@ package com.juege.tech_doc.aspect;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.support.spring.PropertyPreFilters;
 import com.juege.tech_doc.util.RequestContext;
-import com.juege.tech_doc.util.SnowFlake;
+import com.juege.tech_doc.util.Snowflake;
+import jakarta.annotation.Resource;
+import jakarta.servlet.ServletRequest;
+import jakarta.servlet.ServletResponse;
+import jakarta.servlet.http.HttpServletRequest;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.Signature;
@@ -19,11 +23,6 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.annotation.Resource;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
-import javax.servlet.http.HttpServletRequest;
-
 @Aspect
 @Component
 public class LogAspect {
@@ -35,7 +34,7 @@ public class LogAspect {
     public void controllerPointcut() {}
 
     @Resource
-    private SnowFlake snowFlake;
+    private Snowflake snowFlake;
 
     @Before("controllerPointcut()")
     public void doBefore(JoinPoint joinPoint) throws Throwable {

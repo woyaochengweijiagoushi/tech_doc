@@ -1,34 +1,18 @@
 package com.juege.tech_doc.mapper;
 
 import com.juege.tech_doc.domain.Content;
-import com.juege.tech_doc.domain.ContentExample;
-import java.util.List;
-import org.apache.ibatis.annotations.Param;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Mapper;
 
-public interface ContentMapper {
-    long countByExample(ContentExample example);
+/**
+ * <p>
+ * 文档内容 Mapper 接口
+ * </p>
+ *
+ * @author syd
+ * @since 2025-03-08
+ */
+@Mapper
+public interface ContentMapper extends BaseMapper<Content> {
 
-    int deleteByExample(ContentExample example);
-
-    int deleteByPrimaryKey(Long id);
-
-    int insert(Content record);
-
-    int insertSelective(Content record);
-
-    List<Content> selectByExampleWithBLOBs(ContentExample example);
-
-    List<Content> selectByExample(ContentExample example);
-
-    Content selectByPrimaryKey(Long id);
-
-    int updateByExampleSelective(@Param("record") Content record, @Param("example") ContentExample example);
-
-    int updateByExampleWithBLOBs(@Param("record") Content record, @Param("example") ContentExample example);
-
-    int updateByExample(@Param("record") Content record, @Param("example") ContentExample example);
-
-    int updateByPrimaryKeySelective(Content record);
-
-    int updateByPrimaryKeyWithBLOBs(Content record);
 }

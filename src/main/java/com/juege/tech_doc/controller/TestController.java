@@ -2,13 +2,13 @@ package com.juege.tech_doc.controller;
 
 import com.juege.tech_doc.domain.Test;
 import com.juege.tech_doc.service.TestService;
+import jakarta.annotation.Resource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.Resource;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 

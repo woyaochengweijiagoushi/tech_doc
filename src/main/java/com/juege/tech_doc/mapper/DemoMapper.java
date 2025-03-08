@@ -1,30 +1,18 @@
 package com.juege.tech_doc.mapper;
 
 import com.juege.tech_doc.domain.Demo;
-import com.juege.tech_doc.domain.DemoExample;
-import java.util.List;
-import org.apache.ibatis.annotations.Param;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Mapper;
 
-public interface DemoMapper {
-    long countByExample(DemoExample example);
+/**
+ * <p>
+ * 测试 Mapper 接口
+ * </p>
+ *
+ * @author syd
+ * @since 2025-03-08
+ */
+@Mapper
+public interface DemoMapper extends BaseMapper<Demo> {
 
-    int deleteByExample(DemoExample example);
-
-    int deleteByPrimaryKey(Long id);
-
-    int insert(Demo record);
-
-    int insertSelective(Demo record);
-
-    List<Demo> selectByExample(DemoExample example);
-
-    Demo selectByPrimaryKey(Long id);
-
-    int updateByExampleSelective(@Param("record") Demo record, @Param("example") DemoExample example);
-
-    int updateByExample(@Param("record") Demo record, @Param("example") DemoExample example);
-
-    int updateByPrimaryKeySelective(Demo record);
-
-    int updateByPrimaryKey(Demo record);
 }

@@ -2,9 +2,10 @@ package com.juege.tech_doc.service;
 
 import com.juege.tech_doc.mapper.EbookSnapshotMapperCust;
 import com.juege.tech_doc.resp.StatisticResp;
+import jakarta.annotation.Resource;
+
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
 import java.util.List;
 
 @Service

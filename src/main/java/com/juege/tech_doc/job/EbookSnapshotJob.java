@@ -1,14 +1,14 @@
 package com.juege.tech_doc.job;
 
 import com.juege.tech_doc.service.EbookSnapshotService;
-import com.juege.tech_doc.util.SnowFlake;
+import com.juege.tech_doc.util.Snowflake;
+import jakarta.annotation.Resource;
 import org.jboss.logging.MDC;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.Resource;
 
 @Component
 public class EbookSnapshotJob {
@@ -19,7 +19,7 @@ public class EbookSnapshotJob {
     private EbookSnapshotService ebookSnapshotService;
 
     @Resource
-    private SnowFlake snowFlake;
+    private Snowflake snowFlake;
 
     /**
      * 自定义cron表达式跑批

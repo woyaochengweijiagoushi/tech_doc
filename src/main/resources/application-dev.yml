@@ -1,0 +1,36 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    password: tlb888888
+    type: com.zaxxer.hikari.HikariDataSource
+    url: jdbc:mysql://106.75.209.170:8801/tech_doc?characterEncoding=UTF8&autoReconnect=true&serverTimezone=Asia/Shanghai&allowMultiQueries=true&connectTimeout=6000000&socketTimeout=6000000
+    username: root
+    hikari:
+      # 最大连接池数量
+      maxPoolSize: 20
+      # 最小空闲线程数量
+      minIdle: 10
+      # 配置获取连接等待超时的时间
+      connectionTimeout: 30000
+      # 校验超时时间
+      validationTimeout: 5000
+      # 空闲连接存活最大时间，默认10分钟
+      idleTimeout: 600000
+      # 此属性控制池中连接的最长生命周期，值0表示无限生命周期，默认30分钟
+      maxLifetime: 1800000
+      # 多久检查一次连接的活性
+      keepaliveTime: 30000
+  data:
+    redis:
+      password: ruoyi123
+      host: 192.168.2.21
+      port: 6379
+
+rocketmq:
+  name-server: 106.75.209.170:9876
+  producer:
+    group: default
+
+
+
+

@@ -1,30 +1,18 @@
 package com.juege.tech_doc.mapper;
 
 import com.juege.tech_doc.domain.Ebook;
-import com.juege.tech_doc.domain.EbookExample;
-import java.util.List;
-import org.apache.ibatis.annotations.Param;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Mapper;
 
-public interface EbookMapper {
-    long countByExample(EbookExample example);
+/**
+ * <p>
+ * 电子书 Mapper 接口
+ * </p>
+ *
+ * @author syd
+ * @since 2025-03-08
+ */
+@Mapper
+public interface EbookMapper extends BaseMapper<Ebook> {
 
-    int deleteByExample(EbookExample example);
-
-    int deleteByPrimaryKey(Long id);
-
-    int insert(Ebook record);
-
-    int insertSelective(Ebook record);
-
-    List<Ebook> selectByExample(EbookExample example);
-
-    Ebook selectByPrimaryKey(Long id);
-
-    int updateByExampleSelective(@Param("record") Ebook record, @Param("example") EbookExample example);
-
-    int updateByExample(@Param("record") Ebook record, @Param("example") EbookExample example);
-
-    int updateByPrimaryKeySelective(Ebook record);
-
-    int updateByPrimaryKey(Ebook record);
 }

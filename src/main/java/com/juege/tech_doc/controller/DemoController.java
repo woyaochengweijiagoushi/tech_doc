@@ -1,12 +1,13 @@
 package com.juege.tech_doc.controller;
 
-import com.juege.tech_doc.domain.TestTable;
+import com.juege.tech_doc.domain.Test;
 import com.juege.tech_doc.service.DemoService;
+import jakarta.annotation.Resource;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.annotation.Resource;
 import java.util.List;
 
 @RestController
@@ -17,7 +18,7 @@ public class DemoController {
     private DemoService demoService;
 
     @GetMapping("/list")
-    public List<TestTable> list() {
+    public List<Test> list() {
         return demoService.list();
     }
 }

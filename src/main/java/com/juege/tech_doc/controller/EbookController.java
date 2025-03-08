@@ -6,10 +6,11 @@ import com.juege.tech_doc.resp.CommonResp;
 import com.juege.tech_doc.resp.EbookQueryResp;
 import com.juege.tech_doc.resp.PageResp;
 import com.juege.tech_doc.service.EbookService;
+import jakarta.annotation.Resource;
+import jakarta.validation.Valid;
+
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.Resource;
-import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/ebook")

@@ -6,10 +6,11 @@ import com.juege.tech_doc.resp.DocQueryResp;
 import com.juege.tech_doc.resp.CommonResp;
 import com.juege.tech_doc.resp.PageResp;
 import com.juege.tech_doc.service.DocService;
+import jakarta.annotation.Resource;
+import jakarta.validation.Valid;
+
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.Resource;
-import javax.validation.Valid;
 import java.util.Arrays;
 import java.util.List;
 
