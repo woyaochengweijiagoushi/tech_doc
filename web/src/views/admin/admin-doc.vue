@@ -55,6 +55,12 @@
           <p>
             <a-form layout="inline" :model="param">
               <a-form-item>
+                <a-radio-group v-model:value="editorType">
+                  <a-radio value="rich">富文本编辑器</a-radio>
+                  <a-radio value="markdown">Markdown编辑器</a-radio>
+                </a-radio-group>
+              </a-form-item>
+              <a-form-item>
                 <a-button type="primary" @click="handleSave()">
                   保存
                 </a-button>
@@ -86,30 +92,46 @@
               </a-button>
             </a-form-item>
             <a-form-item>
-              <div id="content"></div>
+              <div v-if="editorType === 'rich'" id="content"></div>
+              <v-md-editor v-else v-model="doc.markdownContent" height="400px"></v-md-editor>
             </a-form-item>
           </a-form>
         </a-col>
       </a-row>
 
       <a-drawer width="900" placement="right" :closable="false" :visible="drawerVisible" @close="onDrawerClose">
-        <div class="wangeditor" :innerHTML="previewHtml"></div>
+        <div v-if="editorType === 'markdown'" class="markdown-body">
+          <v-md-preview :text="previewContent"></v-md-preview>
+        </div>
+        <div v-else class="wangeditor" :innerHTML="previewHtml"></div>
       </a-drawer>
     </a-layout-content>
   </a-layout>
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, ref, createVNode } from 'vue';
+import { defineComponent, onMounted, ref, createVNode, watch } from 'vue';
 import axios from 'axios';
 import { message, Modal } from 'ant-design-vue';
 import { Tool } from "@/util/tool";
 import { useRoute } from "vue-router";
 import ExclamationCircleOutlined from "@ant-design/icons-vue/ExclamationCircleOutlined";
 import E from 'wangeditor';
+import VueMarkdownEditor from '@kangc/v-md-editor';
+import '@kangc/v-md-editor/lib/style/base-editor.css';
+import vuepressTheme from '@kangc/v-md-editor/lib/theme/vuepress.js';
+import '@kangc/v-md-editor/lib/theme/style/vuepress.css';
+import VueMarkdownPreview from '@kangc/v-md-editor/lib/preview';
+import '@kangc/v-md-editor/lib/style/preview.css';
+
+VueMarkdownEditor.use(vuepressTheme);
 
 export default defineComponent({
   name: 'AdminDoc',
+  components: {
+    'v-md-editor': VueMarkdownEditor,
+    'v-md-preview': VueMarkdownPreview
+  },
   setup() {
     const route = useRoute();
     console.log("路由：", route);
@@ -123,9 +145,10 @@ export default defineComponent({
     param.value = {};
     const docs = ref();
     const loading = ref(false);
-    // 因为树选择组件的属性状态，会随当前编辑的节点而变化，所以单独声明一个响应式变量
     const treeSelectData = ref();
     treeSelectData.value = [];
+    const editorType = ref('rich');
+    let editor: E | null = null;
 
     const columns = [
       {
@@ -189,21 +212,39 @@ export default defineComponent({
     };
     const modalVisible = ref(false);
     const modalLoading = ref(false);
-    let editor: E | null = null;
+
+    // 监听编辑器类型变化
+    watch(editorType, (newType) => {
+      if (newType === 'rich') {
+        // 切换到富文本编辑器时，重新初始化编辑器
+        setTimeout(() => {
+          if (editor) {
+            editor.destroy();
+          }
+          editor = new E('#content');
+          editor.config.zIndex = 0;
+          editor.config.uploadImgShowBase64 = true;
+          editor.create();
+          // 如果有内容，则恢复内容
+          if (doc.value.content) {
+            editor.txt.html(doc.value.content);
+          }
+        }, 0);
+      }
+    });
 
     const handleSave = () => {
       modalLoading.value = true;
-      if (editor) {
+      if (editorType.value === 'rich' && editor) {
         doc.value.content = editor.txt.html();
+      } else if (editorType.value === 'markdown') {
+        doc.value.content = doc.value.markdownContent;
       }
       axios.post("/doc/save", doc.value).then((response) => {
         modalLoading.value = false;
-        const data = response.data; // data = commonResp
+        const data = response.data;
         if (data.success) {
-          // modalVisible.value = false;
           message.success("保存成功！");
-
-          // 重新加载列表
           handleQuery();
         } else {
           message.error(data.message);
@@ -284,8 +325,10 @@ export default defineComponent({
       axios.get("/doc/find-content/" + doc.value.id).then((response) => {
         const data = response.data;
         if (data.success) {
-          if (editor) {
+          if (editorType.value === 'rich' && editor) {
             editor.txt.html(data.content);
+          } else if (editorType.value === 'markdown') {
+            doc.value.markdownContent = data.content;
           }
         } else {
           message.error(data.message);
@@ -360,10 +403,13 @@ export default defineComponent({
     // ----------------富文本预览--------------
     const drawerVisible = ref(false);
     const previewHtml = ref();
+    const previewContent = ref('');
+
     const handlePreviewContent = () => {
-      if (editor) {
-        const html = editor.txt.html();
-        previewHtml.value = html;
+      if (editorType.value === 'markdown') {
+        previewContent.value = doc.value.markdownContent;
+      } else if (editor) {
+        previewHtml.value = editor.txt.html();
       }
       drawerVisible.value = true;
     };
@@ -373,12 +419,9 @@ export default defineComponent({
 
     onMounted(() => {
       handleQuery();
-
+      // 初始化富文本编辑器
       editor = new E('#content');
       editor.config.zIndex = 0;
-      // 显示上传图片按钮，转成Base64存储，同时也支持拖拽图片
-      // 上传图片文档：https://doc.wangeditor.com/pages/07-%E4%B8%8A%E4%BC%A0%E5%9B%BE%E7%89%87/01-%E9%85%8D%E7%BD%AE%E6%9C%8D%E5%8A%A1%E7%AB%AF%E6%8E%A5%E5%8F%A3.html
-      // 上传视频文档：https://doc.wangeditor.com/pages/07-%E4%B8%8A%E4%BC%A0%E8%A7%86%E9%A2%91/01-%E9%85%8D%E7%BD%AE%E6%9C%8D%E5%8A%A1%E7%AB%AF%E6%8E%A5%E5%8F%A3.html
       editor.config.uploadImgShowBase64 = true;
       editor.create();
     });
@@ -406,6 +449,8 @@ export default defineComponent({
       previewHtml,
       handlePreviewContent,
       onDrawerClose,
+      editorType,
+      previewContent
     }
   }
 });
@@ -415,5 +460,29 @@ export default defineComponent({
 img {
   width: 50px;
   height: 50px;
+}
+
+.markdown-body {
+  padding: 20px;
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+.markdown-body img {
+  max-width: 100%;
+  height: auto;
+}
+
+.markdown-body pre {
+  background-color: #f6f8fa;
+  padding: 16px;
+  border-radius: 6px;
+}
+
+.markdown-body code {
+  background-color: #f6f8fa;
+  padding: 0.2em 0.4em;
+  border-radius: 3px;
+  font-family: SFMono-Regular,Consolas,Liberation Mono,Menlo,monospace;
 }
 </style>
