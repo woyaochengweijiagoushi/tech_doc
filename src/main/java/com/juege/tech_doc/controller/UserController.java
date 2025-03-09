@@ -10,15 +10,15 @@ import com.juege.tech_doc.resp.PageResp;
 import com.juege.tech_doc.resp.UserLoginResp;
 import com.juege.tech_doc.resp.UserQueryResp;
 import com.juege.tech_doc.service.UserService;
-import com.juege.tech_doc.util.SnowFlake;
+import com.juege.tech_doc.util.Snowflake;
+import jakarta.annotation.Resource;
+import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.util.DigestUtils;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.Resource;
-import javax.validation.Valid;
 import java.util.concurrent.TimeUnit;
 
 @RestController
@@ -31,7 +31,7 @@ public class UserController {
     private UserService userService;
 
     @Resource
-    private SnowFlake snowFlake;
+    private Snowflake snowFlake;
 
     @Resource
     private RedisTemplate redisTemplate;

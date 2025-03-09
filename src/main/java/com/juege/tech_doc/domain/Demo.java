@@ -1,35 +1,38 @@
 package com.juege.tech_doc.domain;
 
-public class Demo {
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
+import java.io.Serializable;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+/**
+ * <p>
+ * 测试
+ * </p>
+ *
+ * @author syd
+ * @since 2025-03-08
+ */
+@Getter
+@Setter
+@ToString
+@TableName("demo")
+public class Demo implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+
+    /**
+     * id
+     */
+    @TableId("id")
     private Long id;
 
+    /**
+     * 名称
+     */
+    @TableField("name")
     private String name;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(getClass().getSimpleName());
-        sb.append(" [");
-        sb.append("Hash = ").append(hashCode());
-        sb.append(", id=").append(id);
-        sb.append(", name=").append(name);
-        sb.append("]");
-        return sb.toString();
-    }
 }

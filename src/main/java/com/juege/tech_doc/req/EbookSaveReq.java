@@ -1,6 +1,7 @@
 package com.juege.tech_doc.req;
 
-import javax.validation.constraints.NotNull;
+
+import jakarta.validation.constraints.NotNull;
 
 public class EbookSaveReq {
     private Long id;

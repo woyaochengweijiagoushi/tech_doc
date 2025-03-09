@@ -1,46 +1,57 @@
 <template>
-  <a-layout-header class="header">
-    <div class="logo">觉哥资源库</div>
-    <a-menu
-        theme="dark"
-        mode="horizontal"
-        :style="{ lineHeight: '64px' }"
-    >
-      <a-menu-item key="/">
-        <router-link to="/">首页</router-link>
-      </a-menu-item>
-      <a-menu-item key="/admin/user" :style="user.id? {} : {display:'none'}">
-        <router-link to="/admin/user">用户管理</router-link>
-      </a-menu-item>
-      <a-menu-item key="/admin/ebook" :style="user.id? {} : {display:'none'}">
-        <router-link to="/admin/ebook">资源管理</router-link>
-      </a-menu-item>
-      <a-menu-item key="/admin/category" :style="user.id? {} : {display:'none'}">
-        <router-link to="/admin/category">分类管理</router-link>
-      </a-menu-item>
-      <a-menu-item key="/juegetech">
-        <router-link to="/juegetech">新人必看</router-link>
-      </a-menu-item>
-      <a-menu-item key="/about">
-        <router-link to="/about">关于我们</router-link>
-      </a-menu-item>
-      <a-popconfirm
-          title="确认退出登录?"
-          ok-text="是"
-          cancel-text="否"
-          @confirm="logout()"
-      >
-        <a class="login-menu" v-show="user.id">
-          <span>退出登录</span>
-        </a>
-      </a-popconfirm>
-      <a class="login-menu" v-show="user.id">
-        <span>您好：{{user.name}}</span>
-      </a>
-      <a class="login-menu" v-show="!user.id" @click="showLoginModal">
-        <span>登录</span>
-      </a>
-    </a-menu>
+  <a-layout-header>
+    <a-row>
+      <a-col :span="2">
+        <div class="logo">甲蛙知识库</div>
+      </a-col>
+      <a-col :span="20">
+        <a-menu
+            theme="dark"
+            mode="horizontal"
+        >
+          <a-menu-item key="/">
+            <router-link to="/">首页</router-link>
+          </a-menu-item>
+          <a-menu-item key="/admin/user" v-if="user.id">
+            <router-link to="/admin/user">用户管理</router-link>
+          </a-menu-item>
+          <a-menu-item key="/admin/ebook" v-if="user.id">
+            <router-link to="/admin/ebook">电子书管理</router-link>
+          </a-menu-item>
+          <a-menu-item key="/admin/category" v-if="user.id">
+            <router-link to="/admin/category">分类管理</router-link>
+          </a-menu-item>
+          <a-menu-item key="/admin/pay" v-if="user.id">
+            <router-link to="/admin/pay">在线支付</router-link>
+          </a-menu-item>
+          <a-menu-item key="/about">
+            <router-link to="/about">关于我们</router-link>
+          </a-menu-item>
+          <a-menu-item key="/aliyun">
+            <router-link to="/aliyun">阿里云优惠</router-link>
+          </a-menu-item>
+        </a-menu>
+      </a-col>
+      <a-col :span="2">
+        <div style="float: right">
+          <!-- 未登录状态 -->
+          <template v-if="!user.id">
+            <a-button type="link" @click="showLoginModal">登录</a-button>
+          </template>
+          <template v-if="user.id">
+            <a-popconfirm
+                title="确认退出登录?"
+                ok-text="是"
+                cancel-text="否"
+                @confirm="logout()"
+            >
+              <a-button type="link">退出登录 您好：{{ user.name }}</a-button>
+            </a-popconfirm>
+          </template>
+        </div>
+      </a-col>
+    </a-row>
+
 
     <a-modal
         title="登录"
@@ -50,10 +61,10 @@
     >
       <a-form :model="loginUser" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
         <a-form-item label="登录名">
-          <a-input v-model:value="loginUser.loginName" />
+          <a-input v-model:value="loginUser.loginName"/>
         </a-form-item>
         <a-form-item label="密码">
-          <a-input v-model:value="loginUser.password" type="password" />
+          <a-input v-model:value="loginUser.password" type="password"/>
         </a-form-item>
       </a-form>
     </a-modal>
@@ -61,9 +72,9 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, computed } from 'vue';
+import {computed, defineComponent, ref} from 'vue';
 import axios from 'axios';
-import { message } from 'ant-design-vue';
+import {message} from 'ant-design-vue';
 import store from "@/store";
 
 declare let hexMd5: any;
@@ -71,7 +82,7 @@ declare let KEY: any;
 
 export default defineComponent({
   name: 'the-header',
-  setup () {
+  setup() {
     // 登录后保存
     const user = computed(() => store.state.user);
 
@@ -134,17 +145,9 @@ export default defineComponent({
 
 <style>
 .logo {
-  width: 120px;
-  height: 31px;
-  /*background: rgba(255, 255, 255, 0.2);*/
-  /*margin: 16px 28px 16px 0;*/
   float: left;
   color: white;
   font-size: 18px;
 }
-.login-menu {
-  float: right;
-  color: white;
-  padding-left: 10px;
-}
+
 </style>

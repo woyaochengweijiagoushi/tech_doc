@@ -1,92 +1,70 @@
 package com.juege.tech_doc.domain;
 
-import java.util.Date;
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
+import java.io.Serializable;
+import java.time.LocalDate;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
-public class EbookSnapshot {
+/**
+ * <p>
+ * 电子书快照表
+ * </p>
+ *
+ * @author syd
+ * @since 2025-03-08
+ */
+@Getter
+@Setter
+@ToString
+@TableName("ebook_snapshot")
+public class EbookSnapshot implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+
+    /**
+     * id
+     */
+    @TableId(value = "id", type = IdType.AUTO)
     private Long id;
 
+    /**
+     * 电子书id
+     */
+    @TableField("ebook_id")
     private Long ebookId;
 
-    private Date date;
+    /**
+     * 快照日期
+     */
+    @TableField("date")
+    private LocalDate date;
 
+    /**
+     * 阅读数
+     */
+    @TableField("view_count")
     private Integer viewCount;
 
+    /**
+     * 点赞数
+     */
+    @TableField("vote_count")
     private Integer voteCount;
 
+    /**
+     * 阅读增长
+     */
+    @TableField("view_increase")
     private Integer viewIncrease;
 
+    /**
+     * 点赞增长
+     */
+    @TableField("vote_increase")
     private Integer voteIncrease;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Long getEbookId() {
-        return ebookId;
-    }
-
-    public void setEbookId(Long ebookId) {
-        this.ebookId = ebookId;
-    }
-
-    public Date getDate() {
-        return date;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
-    }
-
-    public Integer getViewCount() {
-        return viewCount;
-    }
-
-    public void setViewCount(Integer viewCount) {
-        this.viewCount = viewCount;
-    }
-
-    public Integer getVoteCount() {
-        return voteCount;
-    }
-
-    public void setVoteCount(Integer voteCount) {
-        this.voteCount = voteCount;
-    }
-
-    public Integer getViewIncrease() {
-        return viewIncrease;
-    }
-
-    public void setViewIncrease(Integer viewIncrease) {
-        this.viewIncrease = viewIncrease;
-    }
-
-    public Integer getVoteIncrease() {
-        return voteIncrease;
-    }
-
-    public void setVoteIncrease(Integer voteIncrease) {
-        this.voteIncrease = voteIncrease;
-    }
-
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(getClass().getSimpleName());
-        sb.append(" [");
-        sb.append("Hash = ").append(hashCode());
-        sb.append(", id=").append(id);
-        sb.append(", ebookId=").append(ebookId);
-        sb.append(", date=").append(date);
-        sb.append(", viewCount=").append(viewCount);
-        sb.append(", voteCount=").append(voteCount);
-        sb.append(", viewIncrease=").append(viewIncrease);
-        sb.append(", voteIncrease=").append(voteIncrease);
-        sb.append("]");
-        return sb.toString();
-    }
 }

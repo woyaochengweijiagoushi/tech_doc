@@ -1,14 +1,13 @@
  package com.juege.tech_doc.rocketmq;
 
  import com.juege.tech_doc.websocket.WebSocketServer;
+ import jakarta.annotation.Resource;
  import org.apache.rocketmq.common.message.MessageExt;
  import org.apache.rocketmq.spring.annotation.RocketMQMessageListener;
  import org.apache.rocketmq.spring.core.RocketMQListener;
  import org.slf4j.Logger;
  import org.slf4j.LoggerFactory;
  import org.springframework.stereotype.Service;
-
- import javax.annotation.Resource;
 
  @Service
  @RocketMQMessageListener(consumerGroup = "default", topic = "VOTE_TOPIC")

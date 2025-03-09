@@ -1,112 +1,80 @@
 package com.juege.tech_doc.domain;
 
-public class Ebook {
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
+import java.io.Serializable;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+/**
+ * <p>
+ * 电子书
+ * </p>
+ *
+ * @author syd
+ * @since 2025-03-08
+ */
+@Getter
+@Setter
+@ToString
+@TableName("ebook")
+public class Ebook implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+
+    /**
+     * id
+     */
+    @TableId("id")
     private Long id;
 
+    /**
+     * 名称
+     */
+    @TableField("name")
     private String name;
 
+    /**
+     * 分类1
+     */
+    @TableField("category1_id")
     private Long category1Id;
 
+    /**
+     * 分类2
+     */
+    @TableField("category2_id")
     private Long category2Id;
 
+    /**
+     * 描述
+     */
+    @TableField("description")
     private String description;
 
+    /**
+     * 封面
+     */
+    @TableField("cover")
     private String cover;
 
+    /**
+     * 文档数
+     */
+    @TableField("doc_count")
     private Integer docCount;
 
+    /**
+     * 阅读数
+     */
+    @TableField("view_count")
     private Integer viewCount;
 
+    /**
+     * 点赞数
+     */
+    @TableField("vote_count")
     private Integer voteCount;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Long getCategory1Id() {
-        return category1Id;
-    }
-
-    public void setCategory1Id(Long category1Id) {
-        this.category1Id = category1Id;
-    }
-
-    public Long getCategory2Id() {
-        return category2Id;
-    }
-
-    public void setCategory2Id(Long category2Id) {
-        this.category2Id = category2Id;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public String getCover() {
-        return cover;
-    }
-
-    public void setCover(String cover) {
-        this.cover = cover;
-    }
-
-    public Integer getDocCount() {
-        return docCount;
-    }
-
-    public void setDocCount(Integer docCount) {
-        this.docCount = docCount;
-    }
-
-    public Integer getViewCount() {
-        return viewCount;
-    }
-
-    public void setViewCount(Integer viewCount) {
-        this.viewCount = viewCount;
-    }
-
-    public Integer getVoteCount() {
-        return voteCount;
-    }
-
-    public void setVoteCount(Integer voteCount) {
-        this.voteCount = voteCount;
-    }
-
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(getClass().getSimpleName());
-        sb.append(" [");
-        sb.append("Hash = ").append(hashCode());
-        sb.append(", id=").append(id);
-        sb.append(", name=").append(name);
-        sb.append(", category1Id=").append(category1Id);
-        sb.append(", category2Id=").append(category2Id);
-        sb.append(", description=").append(description);
-        sb.append(", cover=").append(cover);
-        sb.append(", docCount=").append(docCount);
-        sb.append(", viewCount=").append(viewCount);
-        sb.append(", voteCount=").append(voteCount);
-        sb.append("]");
-        return sb.toString();
-    }
 }

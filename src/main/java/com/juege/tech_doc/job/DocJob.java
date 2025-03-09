@@ -1,14 +1,13 @@
 package com.juege.tech_doc.job;
 
 import com.juege.tech_doc.service.DocService;
-import com.juege.tech_doc.util.SnowFlake;
+import com.juege.tech_doc.util.Snowflake;
+import jakarta.annotation.Resource;
 import org.jboss.logging.MDC;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
-
-import javax.annotation.Resource;
 
 @Component
 public class DocJob {
@@ -19,7 +18,7 @@ public class DocJob {
     private DocService docService;
 
     @Resource
-    private SnowFlake snowFlake;
+    private Snowflake snowFlake;
 
     /**
      * 每30秒更新电子书信息

@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface EbookSnapshotMapperCust {
 
-    public void genSnapshot();
+    void genSnapshot();
 
     List<StatisticResp> getStatistic();
 

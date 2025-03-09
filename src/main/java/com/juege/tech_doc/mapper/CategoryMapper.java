@@ -1,30 +1,18 @@
 package com.juege.tech_doc.mapper;
 
 import com.juege.tech_doc.domain.Category;
-import com.juege.tech_doc.domain.CategoryExample;
-import java.util.List;
-import org.apache.ibatis.annotations.Param;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Mapper;
 
-public interface CategoryMapper {
-    long countByExample(CategoryExample example);
+/**
+ * <p>
+ * 分类 Mapper 接口
+ * </p>
+ *
+ * @author syd
+ * @since 2025-03-08
+ */
+@Mapper
+public interface CategoryMapper extends BaseMapper<Category> {
 
-    int deleteByExample(CategoryExample example);
-
-    int deleteByPrimaryKey(Long id);
-
-    int insert(Category record);
-
-    int insertSelective(Category record);
-
-    List<Category> selectByExample(CategoryExample example);
-
-    Category selectByPrimaryKey(Long id);
-
-    int updateByExampleSelective(@Param("record") Category record, @Param("example") CategoryExample example);
-
-    int updateByExample(@Param("record") Category record, @Param("example") CategoryExample example);
-
-    int updateByPrimaryKeySelective(Category record);
-
-    int updateByPrimaryKey(Category record);
 }
