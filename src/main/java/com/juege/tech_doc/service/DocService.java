@@ -1,7 +1,5 @@
 package com.juege.tech_doc.service;
 
-import java.util.List;
-
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -22,14 +20,14 @@ import com.juege.tech_doc.util.RedisUtil;
 import com.juege.tech_doc.util.RequestContext;
 import com.juege.tech_doc.util.Snowflake;
 import jakarta.annotation.Resource;
-import org.apache.rocketmq.spring.core.RocketMQTemplate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
-
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ObjectUtils;
+
+import java.util.List;
 
 @Service
 public class DocService {
@@ -54,8 +52,8 @@ public class DocService {
 	@Resource
 	public WsService wsService;
 
-	@Resource
-	private RocketMQTemplate rocketMQTemplate;
+//	@Resource
+//	private RocketMQTemplate rocketMQTemplate;
 
 	public List<DocQueryResp> all(Long ebookId) {
 		final LambdaQueryWrapper<Doc> docLambdaQueryWrapper = Wrappers.lambdaQuery(Doc.class).eq(Doc::getEbookId, ebookId)
@@ -150,8 +148,8 @@ public class DocService {
 		// 推送消息
 		Doc docDb = docMapper.selectById(id);
 		String logId = MDC.get("LOG_ID");
-//        wsService.sendInfo("【" + docDb.getName() + "】被点赞！", logId);
-		rocketMQTemplate.convertAndSend("VOTE_TOPIC", "【" + docDb.getName() + "】被点赞！");
+        wsService.sendInfo("【" + docDb.getName() + "】被点赞！", logId);
+//		rocketMQTemplate.convertAndSend("VOTE_TOPIC", "【" + docDb.getName() + "】被点赞！");
 	}
 
 	public void updateEbookInfo() {

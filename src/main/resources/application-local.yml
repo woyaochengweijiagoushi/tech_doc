@@ -2,9 +2,9 @@ spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     type: com.zaxxer.hikari.HikariDataSource
-    url: jdbc:mysql://192.168.2.21:3306/tech_doc?characterEncoding=UTF8&autoReconnect=true&serverTimezone=Asia/Shanghai&allowMultiQueries=true&connectTimeout=6000000&socketTimeout=6000000
+    url: jdbc:mysql://106.75.209.170:8801/tech_doc?characterEncoding=UTF8&autoReconnect=true&serverTimezone=Asia/Shanghai&allowMultiQueries=true&connectTimeout=6000000&socketTimeout=6000000
     username: root
-    password: ruoyi123
+    password: tlb888888
 
   data:
     redis:
@@ -12,10 +12,10 @@ spring:
       host: 106.75.209.170
       port: 8802
 
-rocketmq:
-  name-server: 106.75.209.170:9876
-  producer:
-    group: default
+#rocketmq:
+#  name-server: 106.75.209.170:9876
+#  producer:
+#    group: default
 
 alipay:
   return-url: http://127.0.0.1:8080/pay/return

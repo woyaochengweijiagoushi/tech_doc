@@ -2,7 +2,7 @@
   <a-layout-header>
     <a-row>
       <a-col :span="2">
-        <div class="logo">甲蛙知识库</div>
+        <div class="logo">觉哥团队</div>
       </a-col>
       <a-col :span="20">
         <a-menu
@@ -22,13 +22,13 @@
             <router-link to="/admin/category">分类管理</router-link>
           </a-menu-item>
           <a-menu-item key="/admin/pay" v-if="user.id">
-            <router-link to="/admin/pay">在线支付</router-link>
+            <router-link to="/admin/pay">积分充值</router-link>
           </a-menu-item>
           <a-menu-item key="/about">
             <router-link to="/about">关于我们</router-link>
           </a-menu-item>
           <a-menu-item key="/aliyun">
-            <router-link to="/aliyun">阿里云优惠</router-link>
+            <router-link to="/aliyun">服务器优惠</router-link>
           </a-menu-item>
         </a-menu>
       </a-col>

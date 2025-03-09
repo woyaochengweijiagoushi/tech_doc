@@ -12,7 +12,6 @@
   "dependencies": {
     "@ant-design/icons-vue": "^5.1.8",
     "@kangc/v-md-editor": "^2.3.18",
-    "@kangc/v-md-editor@next": "^2.3.18",
     "ant-design-vue": "^2.0.0-rc.3",
     "axios": "^0.21.0",
     "vue": "^3.0.0",
