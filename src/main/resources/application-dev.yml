@@ -15,9 +15,17 @@ spring:
       keepaliveTime: 30000
   data:
     redis:
-      password: tlb888888
       host: 106.75.209.170
       port: 8802
+      password: tlb888888
+      timeout: 2000ms
+      lettuce:
+        pool:
+          max-active: 8
+          max-idle: 8
+          min-idle: 2
+          max-wait: 1000ms
+        shutdown-timeout: 100ms
 
 #rocketmq:
 #  name-server: 106.75.209.170:9876

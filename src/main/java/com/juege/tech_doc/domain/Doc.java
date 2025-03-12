@@ -3,10 +3,11 @@ package com.juege.tech_doc.domain;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import java.io.Serializable;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+
+import java.io.Serializable;
 
 /**
  * <p>
@@ -49,10 +50,18 @@ public class Doc implements Serializable {
     private String name;
 
     /**
+     * 种类
+     */
+    @TableField("category")
+    private String category;
+
+    /**
      * 顺序
      */
     @TableField("sort")
     private Integer sort;
+
+
 
     /**
      * 阅读数
