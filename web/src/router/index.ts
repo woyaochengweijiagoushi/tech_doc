@@ -8,6 +8,7 @@ import AdminEbook from '../views/admin/admin-ebook.vue'
 import AdminCategory from '../views/admin/admin-category.vue'
 import AdminDoc from '../views/admin/admin-doc.vue'
 import AdminPay from '../views/admin/admin-pay.vue'
+import AdminPayResult from '../views/admin/admin-pay-result.vue'
 import ResourceQuery from '../views/resourceQuery.vue'
 import store from "@/store";
 import {Tool} from "@/util/tool";

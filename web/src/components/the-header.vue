@@ -4,7 +4,8 @@
       <div class="logo">
         觉哥技术团队 v0.2
       </div>
-      <a-menu theme="dark" mode="horizontal" :selectedKeys="[currentRoute]" style="flex: 1;">
+    
+      <a-menu theme="dark" mode="horizontal" :selectedKeys="[currentRoute]" style="flex: 1;" @click="() => console.log(currentRoute)">
         <a-menu-item key="/">
           <router-link to="/" custom v-slot="{ navigate }">
             <span @click="navigate" role="link">
@@ -68,6 +69,10 @@
                 {{ user.name?.charAt(0) }}
               </a-avatar>
               <span class="user-name">{{ user.name }}</span>
+                        <!-- 新增积分展示 -->
+              <span class="points-display" :class="{ 'points-animate': animatePoints }" v-if="user.points !== undefined">
+                <wallet-outlined /> 积分 {{ user.points }}
+              </span>
               <down-outlined class="dropdown-icon" />
             </div>
             <template #overlay>
@@ -167,7 +172,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, ref } from 'vue';
+import { computed, defineComponent, ref , watch} from 'vue';
 import axios from 'axios';
 import { message } from 'ant-design-vue';
 import store from "@/store";
@@ -184,6 +189,7 @@ import {
   DownOutlined,
   LockOutlined
 } from '@ant-design/icons-vue';
+import { useRoute } from 'vue-router';
 
 declare let hexMd5: any;
 declare let KEY: any;
@@ -204,16 +210,32 @@ export default defineComponent({
     LockOutlined
   },
   setup() {
+    const animatePoints = ref(false);
+
+    const route = useRoute(); // 新增路由实例
     const user = computed(() => store.state.user);
     const loginUser = ref({ loginName: "test", password: "test" });
     const loginModalVisible = ref(false);
     const loginModalLoading = ref(false);
     const showLoginModal = () => { loginModalVisible.value = true; };
-    const currentRoute = computed(() => window.location.pathname);
+    const currentRoute = computed(() => route.path);
+
+    watch(
+        () => user.value.points,
+        (newVal, oldVal) => {
+            if (newVal !== oldVal) {
+                animatePoints.value = true;
+                setTimeout(() => {
+                    animatePoints.value = false;
+                }, 600);
+            }
+        }
+    );
 
     const adviceForm = ref({ content: '' });
     const showForm = ref(false);
     const showContent = ref(false); // 控制 a-layout-content 显示与隐藏
+
 
     const toggleForm = () => {
       showForm.value = !showForm.value;
@@ -257,7 +279,8 @@ export default defineComponent({
         if (data.success) {
           loginModalVisible.value = false;
           message.success("登录成功！");
-          store.commit("setUser", data.content);
+          store.commit('setUser', data.content);
+          store.dispatch('startPolling');
         } else {
           message.error(data.message);
         }
@@ -270,6 +293,7 @@ export default defineComponent({
         if (data.success) {
           message.success("退出登录成功！");
           store.commit("setUser", {});
+          store.dispatch('stopPolling');
         } else {
           message.error(data.message);
         }
@@ -290,7 +314,8 @@ export default defineComponent({
       showContent,
       toggleForm,
       toggleContent,
-      submitAdvice
+      submitAdvice,
+      animatePoints
     };
   }
 });
@@ -416,5 +441,34 @@ export default defineComponent({
   color: #1890ff;
 }
 
+.points-display {
+    color: #ffd700; /* 改为更醒目的金色 */
+    margin-left: 8px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 14px;
+    font-weight: 500; /* 增加字体权重 */
+    /* 新增动画相关属性 */
+    transition: all 0.3s ease;
+    transform-origin: center;
+}
+
+/* 新增动画关键帧 */
+@keyframes pointsScale {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+    100% { transform: scale(1); }
+}
+
+.points-animate {
+    animation: pointsScale 0.6s ease;
+    color: #ff9900; /* 动画期间的颜色变化 */
+}
+
 
 </style>
+function useRoute() {
+  throw new Error('Function not implemented.');
+}
+

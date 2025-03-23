@@ -24,7 +24,7 @@ public class PayRespDTO {
 	/**
 	 * 外部订单号
 	 *
-	 * 对应 PayOrderExtensionDO 的 no 字段
+	 * 对应 TdPayRecord 的 no 字段
 	 */
 	private String outTradeNo;
 
