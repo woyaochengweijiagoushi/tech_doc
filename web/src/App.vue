@@ -1,5 +1,6 @@
 <template>
-  <a-layout id="components-layout-demo-top-side-2">
+  <!-- 移除原有a-layout的style绑定 -->
+  <a-layout id="app-container">
     <the-header></the-header>
     <router-view/>
     <the-footer></the-footer>
@@ -19,3 +20,9 @@
     },
   });
 </script>
+
+<style scoped>/* 添加这个样式块 */
+#app-container {
+  background: transparent !important;
+}
+</style>
