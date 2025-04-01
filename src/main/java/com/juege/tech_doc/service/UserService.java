@@ -1,6 +1,7 @@
 package com.juege.tech_doc.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
@@ -18,6 +19,7 @@ import com.juege.tech_doc.resp.PageResp;
 import com.juege.tech_doc.resp.UserLoginResp;
 import com.juege.tech_doc.resp.UserQueryResp;
 import com.juege.tech_doc.util.CopyUtil;
+import com.juege.tech_doc.util.LoginUserContext;
 import com.juege.tech_doc.util.Snowflake;
 import jakarta.annotation.Resource;
 import org.slf4j.Logger;
@@ -126,5 +128,12 @@ public class UserService {
 				throw new BusinessException(BusinessExceptionCode.LOGIN_USER_ERROR);
 			}
 		}
+	}
+
+	public User getCurrentLogin() {
+		final UserLoginResp user = LoginUserContext.getUser();
+		Optional.ofNullable(user).orElseThrow(() -> new BusinessException(BusinessExceptionCode.LOGIN_USER_NOT_EXIST_ERROR));
+		final Long id = user.getId();
+		return userMapper.selectById(id);
 	}
 }

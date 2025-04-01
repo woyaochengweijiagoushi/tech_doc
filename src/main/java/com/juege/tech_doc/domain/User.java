@@ -14,7 +14,7 @@ import lombok.ToString;
  * </p>
  *
  * @author syd
- * @since 2025-03-08
+ * @since 2025-03-23
  */
 @Getter
 @Setter
@@ -47,4 +47,10 @@ public class User implements Serializable {
      */
     @TableField("password")
     private String password;
+
+    /**
+     * 用户积分，1分钱等于1积分
+     */
+    @TableField("points")
+    private Long points;
 }

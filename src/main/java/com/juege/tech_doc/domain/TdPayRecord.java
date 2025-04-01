@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -14,7 +15,7 @@ import lombok.ToString;
  * </p>
  *
  * @author syd
- * @since 2025-03-08
+ * @since 2025-03-23
  */
 @Getter
 @Setter
@@ -86,4 +87,16 @@ public class TdPayRecord implements Serializable {
      */
     @TableField("channel_notify_data")
     private String channelNotifyData;
+
+    /**
+     * 创建时间
+     */
+    @TableField("created_time")
+    private LocalDateTime createdTime;
+
+    /**
+     * 更新时间
+     */
+    @TableField("updated_time")
+    private LocalDateTime updatedTime;
 }

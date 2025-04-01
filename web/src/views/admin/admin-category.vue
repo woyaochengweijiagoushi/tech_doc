@@ -6,6 +6,10 @@
       <p>
         <a-form layout="inline" :model="param">
           <a-form-item>
+            <a-input v-model:value="param.name" placeholder="名称">
+            </a-input>
+          </a-form-item>
+          <a-form-item>
             <a-button type="primary" @click="handleQuery()">
               查询
             </a-button>
@@ -100,6 +104,7 @@ export default defineComponent({
   setup() {
     const param = ref();
     param.value = {};
+    param.value.name=''
     const categorys = ref();
     const loading = ref(false);
 
@@ -145,7 +150,7 @@ export default defineComponent({
       loading.value = true;
       // 如果不清空现有数据，则编辑保存重新加载数据后，再点编辑，则列表显示的还是编辑前的数据
       level1.value = [];
-      axios.get("/category/all").then((response) => {
+      axios.get(`/category/all?name=${param.value.name}`).then((response) => {
         loading.value = false;
         const data = response.data;
         if (data.success) {
