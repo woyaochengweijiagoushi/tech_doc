@@ -4,6 +4,9 @@ server:
 spring:
   profiles:
     active: @profiles.active@
+  # Jackson 配置项
+  jackson:
+    default-property-inclusion: non_null
 
 logging:
   config: classpath:logback-spring.xml

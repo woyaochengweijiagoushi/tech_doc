@@ -11,6 +11,7 @@
   import { defineComponent } from 'vue';
   import TheHeader from '@/components/the-header.vue';
   import TheFooter from '@/components/the-footer.vue';
+  import store from "@/store";
 
   export default defineComponent({
     name: 'app',
@@ -18,6 +19,12 @@
       TheHeader,
       TheFooter,
     },
+    mounted() {
+      store.dispatch('startPolling');
+    },
+    unmounted() {
+      store.dispatch('stopPolling');
+    }
   });
 </script>
 

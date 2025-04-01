@@ -43,7 +43,7 @@ public class AlipayPcPayClient extends AbstractAlipayPayClient {
 		model.setProductCode("FAST_INSTANT_TRADE_PAY"); // 销售产品码. 目前 PC 支付场景下仅支持 FAST_INSTANT_TRADE_PAY
 		// ② 个性化的参数
 		// 如果想弄更多个性化的参数，可参考 https://www.pingxx.com/api/支付渠道 extra 参数说明.html 的 alipay_pc_direct 部分进行拓展
-		model.setQrPayMode("0"); // 跳转模式 - 订单码，效果参见：https://help.pingxx.com/article/1137360/
+		model.setQrPayMode("2"); // 跳转模式 - 订单码，效果参见：https://help.pingxx.com/article/1137360/
 		// ③ 支付宝 PC 支付有两种展示模式：FORM、URL
 		String displayMode = ObjectUtil.defaultIfNull(reqDTO.getDisplayMode(),
 				PayOrderDisplayModeEnum.URL.getMode());
@@ -55,7 +55,7 @@ public class AlipayPcPayClient extends AbstractAlipayPayClient {
 		request.setReturnUrl(reqDTO.getReturnUrl());
 
 		// 2.1 执行请求
-		AlipayTradePagePayResponse response;
+		AlipayTradePagePayResponse response = null;
 		if (Objects.equals(displayMode, PayOrderDisplayModeEnum.FORM.getMode())) {
 			response = client.pageExecute(request, Method.POST.name()); // 需要特殊使用 POST 请求
 		}
@@ -68,6 +68,8 @@ public class AlipayPcPayClient extends AbstractAlipayPayClient {
 		}
 		return PayRespDTO.waitingOf(displayMode, response.getBody(),
 				reqDTO.getOutTradeNo(), response);
+		/*return PayRespDTO.waitingOf(displayMode, "<hr/>",
+				reqDTO.getOutTradeNo(), response);*/
 	}
 
 }
