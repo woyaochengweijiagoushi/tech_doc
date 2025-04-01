@@ -1,7 +1,7 @@
 package com.juege.tech_doc.service;
 
-import java.util.List;
-
+import java.util.*;
+import java.util.stream.Collectors;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -31,16 +31,41 @@ public class CategoryService {
 
 	@Resource
 	private Snowflake snowFlake;
-
-	public List<CategoryQueryResp> all() {
+	public List<CategoryQueryResp> all(String name) {
 
 		final LambdaQueryWrapper<Category> categoryLambdaQueryWrapper = Wrappers.lambdaQuery(Category.class)
 				.orderByAsc(Category::getSort);
 		final List<Category> categories = categoryMapper.selectList(categoryLambdaQueryWrapper);
+		Set<Category> result=new LinkedHashSet<>();
 		// 列表复制
-		return CopyUtil.copyList(categories, CategoryQueryResp.class);
+		Map<Long, Category> categoryMap=categories.stream().collect(Collectors.toMap(Category::getId, category->category));
+		Map<Long, List<Category>> categorySonMap=categories.stream().collect(Collectors.groupingBy(Category::getParent));
+		List<Category> categoryList=categories.stream().filter(category -> category.getName().contains(name)).toList();
+		result.addAll(categoryList);
+		addSonCategory(result,categorySonMap,categoryList);
+		addFaCategory(result,categoryMap,categoryList);
+		return CopyUtil.copyList(result.stream().toList(), CategoryQueryResp.class);
 	}
-
+	private void addFaCategory(Set<Category> result,Map<Long, Category> categoryMap,List<Category> categoryList)
+	{
+		categoryList.stream().forEach(category -> {
+			 if (categoryMap.containsKey(category.getParent()))
+			{
+				result.add(categoryMap.get(category.getParent()));
+				addFaCategory(result,categoryMap,List.of(categoryMap.get(category.getParent())));
+			}
+		});
+	}
+	private void addSonCategory(Set<Category> result, Map<Long, List<Category>> categorySonMap, List<Category> categoryList)
+	{
+		categoryList.stream().forEach(category -> {
+			if (categorySonMap.containsKey(category.getId()))
+			{
+				result.addAll(categorySonMap.get(category.getId()));
+				addSonCategory(result,categorySonMap,categorySonMap.get(category.getId()));
+			}
+		});
+	}
 
 	public PageResp<CategoryQueryResp> list(CategoryQueryReq req) {
 

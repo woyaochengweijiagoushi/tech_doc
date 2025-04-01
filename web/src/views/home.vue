@@ -99,7 +99,8 @@ export default defineComponent({
      * 查询所有分类
      **/
     const handleQueryCategory = () => {
-      axios.get("/category/all").then((response) => {
+        const name=''
+        axios.get(`/category/all?name=${name}`).then((response) => {
         const data = response.data;
         if (data.success) {
           categorys = data.content;

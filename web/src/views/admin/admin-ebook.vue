@@ -247,7 +247,8 @@
        **/
       const handleQueryCategory = () => {
         loading.value = true;
-        axios.get("/category/all").then((response) => {
+      const name=''
+          axios.get(`/category/all?name=${name}`).then((response) => {
           loading.value = false;
           const data = response.data;
           if (data.success) {

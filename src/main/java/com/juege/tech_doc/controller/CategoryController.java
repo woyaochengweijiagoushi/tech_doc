@@ -13,7 +13,6 @@ import jakarta.validation.Valid;
 
 import org.springframework.web.bind.annotation.*;
 
-
 @RestController
 @RequestMapping("/category")
 public class CategoryController {
@@ -22,11 +21,9 @@ public class CategoryController {
     private CategoryService categoryService;
 
     @GetMapping("/all")
-    public CommonResp all() {
-        CommonResp<List<CategoryQueryResp>> resp = new CommonResp<>();
-        List<CategoryQueryResp> list = categoryService.all();
-        resp.setContent(list);
-        return resp;
+    public CommonResp all(@RequestParam(value = "name") String name) {
+        List<CategoryQueryResp> list = categoryService.all(name);
+        return CommonResp.success(list);
     }
 
     @GetMapping("/list")
